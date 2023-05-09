@@ -8,13 +8,19 @@ export default class SearchResultPage {
     header = new Header();
     footer = new Footer();
 
-    filterSection = "[data-testid='cntrBlockFilter']"
     minPriceFilter = "input[data-testid='iptSRPMinPriceFilter']"
     maxPriceFilter = "input[data-testid='iptSRPMaxPriceFilter']"
 
     sortButton = "button[aria-haspopup='listbox']"
     dropdownModal = "div[aria-modal='true']"
 
+    searchResultContainer = "div[data-testid='divSRPContentProducts']";
+    productCard = "div[data-testid='master-product-card']";
+    productName = "div[data-testid='spnSRPProdName']";
+
+    paginationComponent = "nav[data-testid='divSRPLazyPagination']"
+
+    // object method starts here
     setMinPriceFilter(amount) {
         this.footer.waitForFooterRender();
 
@@ -28,6 +34,7 @@ export default class SearchResultPage {
                 .should("contain", "pmin=" + String(amount))
         );
         expect(cy.get(this.minPriceFilter)
+            .should("be.visible")
             .should("have.value", amount.toLocaleString().split(",").join(".")));
     }
 
@@ -44,6 +51,7 @@ export default class SearchResultPage {
                 .should("contain", "pmax=" + String(amount))
         );
         expect(cy.get(this.maxPriceFilter)
+            .should("be.visible")
             .should("have.value", amount.toLocaleString().split(",").join(".")));
     }
 
@@ -53,8 +61,8 @@ export default class SearchResultPage {
         cy.get(this.sortButton).click();
         cy.get(this.dropdownModal).contains(value).click();
 
+        //switch case for each sort options
         let sortQueryParamVal;
-        cy.log(String(value));
         switch(String(value)){
             case("Paling Sesuai"):
                 sortQueryParamVal = 23;
@@ -80,6 +88,27 @@ export default class SearchResultPage {
                 .should("contain", "ob=" + sortQueryParamVal)
         );
         expect(cy.get(this.sortButton)
+            .should("be.visible")
             .should("have.text", value));
+    }
+
+    assertProductNameByKeyword(keyword) {
+        this.footer.waitForFooterRender();
+
+        cy.get(this.searchResultContainer).find(this.productCard).each(($card, index, $list) => {
+            cy.get($card).within(() => {
+                cy.get(this.productName).invoke('text').then(($name) => {
+                    const productCardIndex = index + 1;
+                    const splittedKeyword = String(keyword).split(" ");
+
+                    splittedKeyword.forEach((word) => {
+                        expect(
+                            String($name).toLowerCase()).to.contains(String(word).toLowerCase()
+                        );
+                    });
+                    cy.log("Product #" + productCardIndex +" name is '" + String($name) + "'");
+                });
+            });
+        });
     }
 }
