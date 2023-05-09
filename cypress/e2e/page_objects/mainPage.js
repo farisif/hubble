@@ -7,4 +7,17 @@ export default class MainPage {
     //UI component starts here
     header = new Header();
     footer = new Footer();
+
+    // object method starts here
+    searchProduct(keyword){
+        this.header.setSearchKeyword(keyword);
+
+        //assert URL and searhbar value after keyword applied
+        expect(
+            cy.url()
+                .should("contain", this.pageURL + "search?")
+                .should("contain", "q=" + String(keyword).split(" ").join("%20"))
+        );
+        expect(cy.get(this.header.searchbar).should("have.value", keyword));
+    }
 }

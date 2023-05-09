@@ -18,7 +18,6 @@ When("user selects {string} as store type filter", (type) => {
     searchResultPage.setStoreTypeFilter(type);
 });
 
-
 Then("user should be able to ensure all product name on search result has keyword {string}", (keyword) => {
     searchResultPage.assertProductNameByKeyword(keyword);
 });

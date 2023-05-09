@@ -4,10 +4,13 @@ import MainPage from "../page_objects/mainPage";
 const mainPage = new MainPage();
 
 Given("user already visited Tokopedia website", () => {
-    cy.visit("www.tokopedia.com",{headers: { "Accept-Encoding": "gzip, deflate" }});
+    cy.visit(
+        "www.tokopedia.com",
+        { headers: { "Accept-Encoding": "gzip, deflate" } }
+    );
 });
 
 
 When("user searches {string} on searchbar", (keyword) => {
-    mainPage.header.setSearchKeyword(keyword);
+    mainPage.searchProduct(keyword);
 });
