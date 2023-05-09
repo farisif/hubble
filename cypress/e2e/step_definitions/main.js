@@ -9,5 +9,5 @@ Given("user already visited Tokopedia website", () => {
 
 
 When("user search {string} on searchbar", (keyword) => {
-    mainPage.searchbar.setSearchKeyword(keyword);
+    mainPage.header.setSearchKeyword(keyword);
 });

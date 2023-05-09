@@ -1,8 +1,10 @@
-import Searchbar  from "../component_objects/searchbar";
+import Header  from "../component_objects/header";
+import Footer from "../component_objects/footer";
 
 export default class MainPage {
     mainURL = "https://www.tokopedia.com/"
 
     //UI component starts here
-    searchbar = new Searchbar();
+    header = new Header();
+    footer = new Footer();
 }

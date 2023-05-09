@@ -1,4 +1,4 @@
-export default class Searchbar {
+export default class Header {
     mainURL = "https://www.tokopedia.com/"
 
     //UI component starts here
