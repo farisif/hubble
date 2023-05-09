@@ -6,6 +6,6 @@ export default class Footer {
 
     waitForFooterRender(){
         cy.scrollTo('bottom');
-        cy.get(this.facebookIcon).should("be.visible"); // waiting for footer section to be rendered
+        cy.get(this.facebookIcon).should("be.visible");
     }
 }

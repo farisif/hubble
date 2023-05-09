@@ -3,10 +3,14 @@ import SearchResultPage from "../page_objects/searchResultPage";
 
 const searchResultPage = new SearchResultPage();
 
-When("user set {int} as minimum price filter", (amount) => {
+When("user sets {int} as minimum price filter", (amount) => {
     searchResultPage.setMinPriceFilter(amount);
 });
 
-When("user set {int} as maximum price filter", (amount) => {
+When("user sets {int} as maximum price filter", (amount) => {
     searchResultPage.setMaxPriceFilter(amount);
+});
+
+When("user sorts search result by {string}", (value) => {
+    searchResultPage.setSortedBy(value);
 });

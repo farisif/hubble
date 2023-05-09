@@ -8,6 +8,6 @@ Given("user already visited Tokopedia website", () => {
 });
 
 
-When("user search {string} on searchbar", (keyword) => {
+When("user searches {string} on searchbar", (keyword) => {
     mainPage.header.setSearchKeyword(keyword);
 });
