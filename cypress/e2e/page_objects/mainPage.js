@@ -2,7 +2,7 @@ import Header  from "../component_objects/header";
 import Footer from "../component_objects/footer";
 
 export default class MainPage {
-    mainURL = "https://www.tokopedia.com/"
+    pageURL = "https://www.tokopedia.com/"
 
     //UI component starts here
     header = new Header();

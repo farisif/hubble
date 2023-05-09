@@ -2,7 +2,7 @@ import Header  from "../component_objects/header";
 import Footer from "../component_objects/footer";
 
 export default class SearchResultPage {
-    mainURL = "https://www.tokopedia.com/"
+    pageURL = "https://www.tokopedia.com/search"
 
     //UI component starts here
     header = new Header();
@@ -24,7 +24,7 @@ export default class SearchResultPage {
         //assert URL query param and filter value after amount applied
         expect(
             cy.url()
-                .should("contain", this.mainURL + "search?")
+                .should("contain", this.pageURL)
                 .should("contain", "pmin=" + String(amount))
         );
         expect(cy.get(this.minPriceFilter)
@@ -40,7 +40,7 @@ export default class SearchResultPage {
         //assert URL query param and filter value after amount applied
         expect(
             cy.url()
-                .should("contain", this.mainURL + "search?")
+                .should("contain", this.pageURL)
                 .should("contain", "pmax=" + String(amount))
         );
         expect(cy.get(this.maxPriceFilter)
@@ -76,7 +76,7 @@ export default class SearchResultPage {
         //assert URL query param and filter value after amount applied
         expect(
             cy.url()
-                .should("contain", this.mainURL + "search?")
+                .should("contain", this.pageURL)
                 .should("contain", "ob=" + sortQueryParamVal)
         );
         expect(cy.get(this.sortButton)

@@ -1,6 +1,4 @@
 export default class Footer {
-    mainURL = "https://www.tokopedia.com/"
-
     //UI component starts here
     facebookIcon = "img[alt='icon-facebook']"
 
