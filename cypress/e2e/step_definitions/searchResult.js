@@ -14,7 +14,11 @@ When("user sets {int} as maximum price filter", (amount) => {
 When("user sorts search result by {string}", (value) => {
     searchResultPage.setSortedBy(value);
 });
+When("user selects {string} as store type filter", (type) => {
+    searchResultPage.setStoreTypeFilter(type);
+});
 
-When("user should be able to ensure all product name on search result has keyword {string}", (keyword) => {
+
+Then("user should be able to ensure all product name on search result has keyword {string}", (keyword) => {
     searchResultPage.assertProductNameByKeyword(keyword);
 });

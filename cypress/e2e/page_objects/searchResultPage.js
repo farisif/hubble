@@ -8,6 +8,8 @@ export default class SearchResultPage {
     header = new Header();
     footer = new Footer();
 
+    filterContainer = "div[data-testid='cntrBlockFilter']"
+    storeTypeFilter = "div[data-testid='dSRPShopFilter']"
     minPriceFilter = "input[data-testid='iptSRPMinPriceFilter']"
     maxPriceFilter = "input[data-testid='iptSRPMaxPriceFilter']"
 
@@ -21,6 +23,36 @@ export default class SearchResultPage {
     paginationComponent = "nav[data-testid='divSRPLazyPagination']"
 
     // object method starts here
+    setStoreTypeFilter(type) {
+        this.footer.waitForFooterRender();
+
+        cy.get(this.filterContainer).find(this.storeTypeFilter).contains(type).click();
+
+        //switch case for each store type option
+        let storeTypeQueryParamVal;
+        switch(String(type)){
+            case("Official Store"):
+                storeTypeQueryParamVal = 2;
+                break;
+            case("Power Merchant Pro"):
+                storeTypeQueryParamVal = 3;
+                break;
+            case("Power Merchant Pro"):
+                storeTypeQueryParamVal = 1;
+                break;
+        }
+
+        //assert URL query param and filter value after store type selected
+        expect(
+            cy.url()
+                .should("contain", this.pageURL)
+                .should("contain", "shop_tier=" + String(storeTypeQueryParamVal))
+        );
+        expect(cy.get(this.filterContainer).should("be.visible")
+            .find(this.storeTypeFilter).find("input[value='" + type +"']")
+                .should("have.attr", "aria-checked", "true"));
+    }
+
     setMinPriceFilter(amount) {
         this.footer.waitForFooterRender();
 
@@ -61,7 +93,7 @@ export default class SearchResultPage {
         cy.get(this.sortButton).click();
         cy.get(this.dropdownModal).contains(value).click();
 
-        //switch case for each sort options
+        //switch case for each sort option
         let sortQueryParamVal;
         switch(String(value)){
             case("Paling Sesuai"):
@@ -95,6 +127,10 @@ export default class SearchResultPage {
     assertProductNameByKeyword(keyword) {
         this.footer.waitForFooterRender();
 
+        /**
+         * Check each product card on search result page
+         * Then, assert and obtain each product card
+         */
         cy.get(this.searchResultContainer).find(this.productCard).each(($card, index, $list) => {
             cy.get($card).within(() => {
                 cy.get(this.productName).invoke('text').then(($name) => {
