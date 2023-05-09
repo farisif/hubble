@@ -8,19 +8,20 @@ export default class SearchResultPage {
     header = new Header();
     footer = new Footer();
 
-    filterContainer = "div[data-testid='cntrBlockFilter']"
-    storeTypeFilter = "div[data-testid='dSRPShopFilter']"
-    minPriceFilter = "input[data-testid='iptSRPMinPriceFilter']"
-    maxPriceFilter = "input[data-testid='iptSRPMaxPriceFilter']"
+    filterContainer = "div[data-testid='cntrBlockFilter']";
+    storeTypeFilter = "div[data-testid='dSRPShopFilter']";
+    minPriceFilter = "input[data-testid='iptSRPMinPriceFilter']";
+    maxPriceFilter = "input[data-testid='iptSRPMaxPriceFilter']";
 
-    sortButton = "button[aria-haspopup='listbox']"
-    dropdownModal = "div[aria-modal='true']"
+    sortButton = "button[aria-haspopup='listbox']";
+    dropdownModal = "div[aria-modal='true']";
 
     searchResultContainer = "div[data-testid='divSRPContentProducts']";
     productCard = "div[data-testid='master-product-card']";
     productName = "div[data-testid='spnSRPProdName']";
 
-    paginationComponent = "nav[data-testid='divSRPLazyPagination']"
+    paginationComponent = "nav[data-testid='divSRPLazyPagination']";
+    currentPageButton = "button[aria-current='true']";
 
     // object method starts here
     setStoreTypeFilter(type) {
@@ -124,6 +125,33 @@ export default class SearchResultPage {
             .should("have.text", value));
     }
 
+    
+    goToNextPage(){
+        cy.get(this.paginationComponent).find(this.currentPageButton)
+            .invoke("text").as("currentPage");
+
+        this.footer.waitForFooterRender();
+
+        cy.get(this.paginationComponent).find("button").last().then(($btn) => {
+            if ($btn.is(":enabled")) {
+                cy.wrap($btn).click()
+            }
+        });
+
+        cy.get("@currentPage").then((page) => {
+            //assert URL query param and pagination after redirect to the next page
+            expect(
+                cy.url()
+                    .should("contain", this.pageURL)
+                    .should("contain", "page=" + String(page))
+            );
+            expect(
+                cy.get(this.paginationComponent).find("button").eq(Number(page))
+                    .should("have.attr", "aria-current", "true")
+            );
+        })
+    }
+
     assertProductNameByKeyword(keyword) {
         this.footer.waitForFooterRender();
 
@@ -133,7 +161,7 @@ export default class SearchResultPage {
          */
         cy.get(this.searchResultContainer).find(this.productCard).each(($card, index, $list) => {
             cy.get($card).within(() => {
-                cy.get(this.productName).invoke('text').then(($name) => {
+                cy.get(this.productName).invoke("text").then(($name) => {
                     const productCardIndex = index + 1;
                     const splittedKeyword = String(keyword).split(" ");
 
