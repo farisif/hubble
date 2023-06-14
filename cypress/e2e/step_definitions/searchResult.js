@@ -23,6 +23,10 @@ When("user selects {string} as store type filter", (type) => {
     searchResultPage.setStoreTypeFilter(type);
 });
 
+When("write first product name on a file", () => {
+    searchResultPage.writeOnFile();
+});
+
 Then("user should be able to ensure all product name on search result page has keyword {string}", (keyword) => {
     searchResultPage.assertProductNameByKeyword(keyword);
 });
