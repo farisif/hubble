@@ -8,4 +8,8 @@ export default class Header {
         cy.get(this.searchbar).type(keyword);
         cy.get(this.searchbar).type("{enter}");
     }
+
+    clearSearchBar(){
+        cy.get(this.searchbar).clear();
+    }
 }

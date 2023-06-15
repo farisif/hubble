@@ -10,6 +10,10 @@ Given("user already visited Tokopedia website", () => {
     );
 });
 
+When("user clear the searchbar keyword", (keyword) => {
+    mainPage.header.clearSearchBar();
+});
+
 When("user searches {string} on searchbar", (keyword) => {
     mainPage.searchProduct(keyword);
 });

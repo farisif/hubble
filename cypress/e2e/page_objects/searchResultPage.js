@@ -24,6 +24,12 @@ export default class SearchResultPage {
     currentPageButton = "button[aria-current='true']";
 
     // object method starts here
+    writeOnFile() {
+        cy.get(this.searchResultContainer).find(this.productCard).eq(0).invoke('text').then((text) => {
+            cy.writeFile('cypress/e2e/text.txt',text);
+        });
+    }
+
     setStoreTypeFilter(type) {
         this.footer.waitForFooterRender();
 
